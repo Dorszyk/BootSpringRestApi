@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,6 @@ import pl.zajavka.infrastructure.database.entity.EmployeeEntity;
 import pl.zajavka.infrastructure.database.repository.EmployeeRepository;
 
 import java.net.URI;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(EmployeesController.EMPLOYEES)
@@ -97,5 +97,21 @@ class EmployeesController {
         employeeRepository.save(existingEmployee);
 
         return ResponseEntity.ok().build();
+    }
+
+    //curl -i -X DELETE http://localhost:8190/restApi/employees/22
+
+
+    @DeleteMapping(EMPLOYEE_ID)
+    @Transactional
+    public ResponseEntity<?> deleteEmployee(
+            @PathVariable Integer employeeId
+    ) {
+        EmployeeEntity existingEmployee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "EmployeeEntity not found, employeeId: [%s]".formatted(employeeId)
+                ));
+        employeeRepository.delete(existingEmployee);
+        return ResponseEntity.noContent().build();
     }
 }

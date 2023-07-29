@@ -50,11 +50,11 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handler(Exception exception) {
-        return doHandler(exception, getHttpStatusFromException(exception.getClass()));
+    public ResponseEntity<?> handle(Exception exception) {
+        return doHandle(exception, getHttpStatusFromException(exception.getClass()));
     }
 
-    private ResponseEntity<?> doHandler(Exception exception, HttpStatus status) {
+    private ResponseEntity<?> doHandle(Exception exception, HttpStatus status) {
         final String errorId = UUID.randomUUID().toString();
         log.error("Handled exception: {}", exception.getMessage());
         return ResponseEntity

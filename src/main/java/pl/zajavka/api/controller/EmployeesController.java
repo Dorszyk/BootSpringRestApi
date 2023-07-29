@@ -4,6 +4,7 @@ package pl.zajavka.api.controller;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +36,7 @@ class EmployeesController {
     public static final String EMPLOYEES = "/employees";
     public static final String EMPLOYEE_ID = "/{employeeId}";
 
-    public static final String EMPLOYEE_UPDATE_SALARY = "/{employeeId}";
+    public static final String EMPLOYEE_UPDATE_SALARY = "/{employeeId}/salary";
     public static final String EMPLOYEE_ID_RESULT = "/%s";
 
 
@@ -106,7 +108,6 @@ class EmployeesController {
 
     //curl -i -X DELETE http://localhost:8190/restApi/employees/22
 
-
     @DeleteMapping(EMPLOYEE_ID)
     @Transactional
     public ResponseEntity<?> deleteEmployee(
@@ -119,8 +120,9 @@ class EmployeesController {
         employeeRepository.deleteById(existingEmployee.getEmployeeId());
         return ResponseEntity.noContent().build();
     }
+
+    //curl -i -X PATCH http://localhost:8190/restApi/employees/40/salary?newSalary=19221.00
     @PatchMapping(EMPLOYEE_UPDATE_SALARY)
-    @Transactional
     public ResponseEntity<?> updateEmployeeSalary(
             @PathVariable Integer employeeId,
             @RequestParam BigDecimal newSalary
@@ -134,5 +136,16 @@ class EmployeesController {
         return ResponseEntity.ok().build();
     }
 
-
+    //curl -i -H "Accept: application/json" -H "httpStatus: 204" -X GET http://localhost:8190/restApi/employees/test-header
+    //curl -i -X GET http://localhost:8190/restApi/employees/test-header
+    @GetMapping(value = "test-header")
+    public ResponseEntity<String> testHeader(
+            @RequestHeader(value = HttpHeaders.ACCEPT, defaultValue = "application/json") MediaType accept,
+            @RequestHeader(value = "httpStatus", defaultValue = "200", required = true) int httpStatus
+    ) {
+        return ResponseEntity
+                .status(httpStatus)
+                .header("x-my-header", accept.toString())
+                .body("Accepted: " + accept);
+    }
 }

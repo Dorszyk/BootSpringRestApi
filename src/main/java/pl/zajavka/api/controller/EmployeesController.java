@@ -9,11 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.zajavka.api.dto.EmployeeDTO;
 import pl.zajavka.api.dto.EmployeesDTO;
@@ -21,6 +23,7 @@ import pl.zajavka.api.mapper.EmployeeMapper;
 import pl.zajavka.infrastructure.database.entity.EmployeeEntity;
 import pl.zajavka.infrastructure.database.repository.EmployeeRepository;
 
+import java.math.BigDecimal;
 import java.net.URI;
 
 @RestController
@@ -30,6 +33,8 @@ class EmployeesController {
 
     public static final String EMPLOYEES = "/employees";
     public static final String EMPLOYEE_ID = "/{employeeId}";
+
+    public static final String EMPLOYEE_UPDATE_SALARY = "/{employeeId}";
     public static final String EMPLOYEE_ID_RESULT = "/%s";
 
 
@@ -114,4 +119,20 @@ class EmployeesController {
         employeeRepository.delete(existingEmployee);
         return ResponseEntity.noContent().build();
     }
+    @PatchMapping(EMPLOYEE_UPDATE_SALARY)
+    @Transactional
+    public ResponseEntity<?> updateEmployeeSalary(
+            @PathVariable Integer employeeId,
+            @RequestParam BigDecimal newSalary
+    ) {
+        EmployeeEntity existingEmployee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "EmployeeEntity not found, employeeId: [%s]".formatted(employeeId)
+                ));
+        existingEmployee.setSalary(newSalary);
+        EmployeeEntity updatedEmployee = employeeRepository.save(existingEmployee);
+        return ResponseEntity.ok().build();
+    }
+
+
 }

@@ -116,7 +116,7 @@ class EmployeesController {
                 .orElseThrow(() -> new EntityNotFoundException(
                         "EmployeeEntity not found, employeeId: [%s]".formatted(employeeId)
                 ));
-        employeeRepository.delete(existingEmployee);
+        employeeRepository.deleteById(existingEmployee.getEmployeeId());
         return ResponseEntity.noContent().build();
     }
     @PatchMapping(EMPLOYEE_UPDATE_SALARY)

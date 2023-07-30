@@ -1,4 +1,4 @@
-package pl.zajavka.api.controller;
+package pl.zajavka.controller.api;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ConstraintViolationException;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import pl.zajavka.api.dto.ExceptionMessage;
+import pl.zajavka.controller.dto.ExceptionMessage;
 
 import java.util.Map;
 import java.util.UUID;

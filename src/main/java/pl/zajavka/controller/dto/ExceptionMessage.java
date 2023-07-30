@@ -1,4 +1,4 @@
-package pl.zajavka.api.dto;
+package pl.zajavka.controller.dto;
 
 
 import lombok.AllArgsConstructor;

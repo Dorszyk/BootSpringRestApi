@@ -1,4 +1,4 @@
-package pl.zajavka.api.controller;
+package pl.zajavka.controller.api;
 
 
 import jakarta.persistence.EntityNotFoundException;
@@ -19,11 +19,15 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import pl.zajavka.api.dto.EmployeeDTO;
-import pl.zajavka.api.dto.EmployeesDTO;
-import pl.zajavka.api.mapper.EmployeeMapper;
+import pl.zajavka.controller.dao.PetDao;
+import pl.zajavka.controller.dto.EmployeeDTO;
+import pl.zajavka.controller.dto.EmployeesDTO;
+import pl.zajavka.controller.dto.EmployeeMapper;
 import pl.zajavka.infrastructure.database.entity.EmployeeEntity;
+import pl.zajavka.infrastructure.database.entity.PetEntity;
 import pl.zajavka.infrastructure.database.repository.EmployeeRepository;
+import pl.zajavka.infrastructure.database.repository.PetRepository;
+import pl.zajavka.infrastructure.petstore.Pet;
 
 import java.math.BigDecimal;
 import java.net.URI;
@@ -39,9 +43,13 @@ class EmployeesController {
     public static final String EMPLOYEE_UPDATE_SALARY = "/{employeeId}/salary";
     public static final String EMPLOYEE_ID_RESULT = "/%s";
 
+    public static final String EMPLOYEE_UPDATE_PET = "/{employeeId}/pet/{petId}";
+
 
     private EmployeeRepository employeeRepository;
     private EmployeeMapper employeeMapper;
+    private PetDao petDao;
+    private PetRepository petRepository;
 
     @GetMapping
     public EmployeesDTO employeesList() {
@@ -133,6 +141,34 @@ class EmployeesController {
                 ));
         existingEmployee.setSalary(newSalary);
         EmployeeEntity updatedEmployee = employeeRepository.save(existingEmployee);
+        return ResponseEntity.ok().build();
+    }
+
+    //curl -i --location --request PATCH 'http://localhost:8190/restApi/employees/2/pet/10'
+    @PatchMapping(EMPLOYEE_UPDATE_PET)
+    @Transactional
+    public ResponseEntity<?> updateEmployeePet(
+            @PathVariable Integer employeeId,
+            @PathVariable Long petId
+           ) {
+        EmployeeEntity existingEmployee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "EmployeeEntity not found, employeeId: [%s]".formatted(employeeId)
+                ));
+
+        Pet petFromStore= petDao.getPet(petId)
+                .orElseThrow(() -> new RuntimeException(
+                        "Pet not found, petId: [%s]".formatted(petId)
+                ));
+
+        PetEntity newPet = PetEntity.builder()
+                .petStorePetId(petFromStore.getId())
+                .name(petFromStore.getName())
+                .status(petFromStore.getStatus())
+                .employee(existingEmployee)
+                .build();
+        petRepository.save(newPet);
+
         return ResponseEntity.ok().build();
     }
 

@@ -14,6 +14,7 @@ import pl.zajavka.RestApiApplication;
 public class SpringDocConfiguration {
 
     //http://localhost:8190/restApi/swagger-ui/index.html
+    // petstore3.swagger.io/api/v3/openapi.json
 
     @Bean
     public GroupedOpenApi groupedOpenApi() {

@@ -164,7 +164,7 @@ class EmployeesController {
         PetEntity newPet = PetEntity.builder()
                 .petStorePetId(petFromStore.getId())
                 .name(petFromStore.getName())
-                .status(petFromStore.getStatus())
+                .category(petFromStore.getCategory())
                 .employee(existingEmployee)
                 .build();
         petRepository.save(newPet);

@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import lombok.With;
 
 import java.math.BigDecimal;
+import java.util.Set;
+
 
 @Data
 @With
@@ -29,4 +31,6 @@ public class EmployeeDTO {
     private String phone;
     @Email
     private String email;
+
+    private Set<PetDTO> pets;
 }

@@ -1,5 +1,5 @@
 plugins {
-    id 'org.springframework.boot' version '3.0.0'
+    id 'org.springframework.boot' version '3.1.2'
     id 'io.spring.dependency-management' version '1.1.0'
     id 'org.openapi.generator' version "${openapiGenerationVersion}"
     id 'java'
@@ -38,6 +38,7 @@ dependencies {
     implementation "javax.annotation:javax.annotation-api:${javaxAnnotationApiVersion}"
     implementation "io.swagger:swagger-annotations:${swaggerAnnotationsVersion}"
     implementation "com.google.code.findbugs:jsr305:${jsr305Version}"
+    testImplementation 'org.projectlombok:lombok:1.18.26'
 
     // annotations
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"

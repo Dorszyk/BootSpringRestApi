@@ -21,7 +21,7 @@ import lombok.With;
 @With
 @Entity
 @Builder
-@ToString(of = {"name", "status"})
+@ToString(of = {"name", "category"})
 @EqualsAndHashCode(of = "petId")
 @NoArgsConstructor
 @AllArgsConstructor
@@ -30,21 +30,21 @@ public class PetEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "pet_store_pet_id", nullable = false)
+    @Column(name = "pet_store_pet_id")
     private Long petStorePetId;
 
-    @Column(name = "name", nullable = false)
 
+    @Column(name = "name")
     private String name;
-    @Column(name = "status", nullable = false)
 
-    private String status;
+    @Column(name = "category")
+    private String category;
+
     @ManyToOne(fetch = FetchType.LAZY)
-
-    @JoinColumn(name = "employee_id", referencedColumnName = "employee_id", nullable = false)
+    @JoinColumn(name = "employee_id", referencedColumnName = "employee_id")
     private EmployeeEntity employee;
 
 }

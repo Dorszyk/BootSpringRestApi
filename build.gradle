@@ -38,7 +38,7 @@ dependencies {
     implementation "javax.annotation:javax.annotation-api:${javaxAnnotationApiVersion}"
     implementation "io.swagger:swagger-annotations:${swaggerAnnotationsVersion}"
     implementation "com.google.code.findbugs:jsr305:${jsr305Version}"
-    testImplementation 'org.projectlombok:lombok:1.18.26'
+    testImplementation 'org.projectlombok:lombok:1.18.28'
 
     // annotations
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"

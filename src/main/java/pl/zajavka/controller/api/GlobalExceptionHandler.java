@@ -42,7 +42,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         return super.handleExceptionInternal(
                 ex,
-                body,
+                ExceptionMessage.of(errorId),
                 headers,
                 statusCode,
                 request
@@ -56,7 +56,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<?> doHandle(Exception exception, HttpStatus status) {
         final String errorId = UUID.randomUUID().toString();
-        log.error("Handled exception: {}", exception.getMessage());
+        log.error("Exception: ID ={}, HttpStatus={}", errorId,status,exception);
         return ResponseEntity
                 .status(status)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -64,7 +64,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     private HttpStatus getHttpStatusFromException(final Class<?> exceptionClass) {
-        return EXCEPTION_STATUS.getOrDefault(exceptionClass, HttpStatus.INTERNAL_SERVER_ERROR);
+        return EXCEPTION_STATUS.getOrDefault(exceptionClass,
+                HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

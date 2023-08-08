@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import pl.zajavka.controller.dao.PetDao;
 import pl.zajavka.controller.dto.EmployeeDTO;
 import pl.zajavka.controller.dto.EmployeeMapper;
-import pl.zajavka.controller.util.DtoFixtures;
-import pl.zajavka.controller.util.EntityFixtures;
+import pl.zajavka.util.DtoFixtures;
+import pl.zajavka.util.EntityFixtures;
 import pl.zajavka.infrastructure.database.entity.EmployeeEntity;
 import pl.zajavka.infrastructure.database.repository.EmployeeRepository;
 

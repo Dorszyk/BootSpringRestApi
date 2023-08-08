@@ -39,10 +39,8 @@ class EmployeesController {
 
     public static final String EMPLOYEES = "/employees";
     public static final String EMPLOYEE_ID = "/{employeeId}";
-
     public static final String EMPLOYEE_UPDATE_SALARY = "/{employeeId}/salary";
     public static final String EMPLOYEE_ID_RESULT = "/%s";
-
     public static final String EMPLOYEE_UPDATE_PET = "/{employeeId}/pet/{petId}";
 
 
@@ -59,7 +57,6 @@ class EmployeesController {
                 .map(employeeMapper::map)
                 .toList());
     }
-
     @GetMapping(
             value = EMPLOYEE_ID,
             produces = {
@@ -75,7 +72,6 @@ class EmployeesController {
                 ));
 
     }
-
     @PostMapping
     @Transactional
     public ResponseEntity<EmployeeDTO> addEmployee(

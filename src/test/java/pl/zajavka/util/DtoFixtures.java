@@ -1,4 +1,4 @@
-package pl.zajavka.controller.util;
+package pl.zajavka.util;
 
 import lombok.experimental.UtilityClass;
 import pl.zajavka.controller.dto.EmployeeDTO;

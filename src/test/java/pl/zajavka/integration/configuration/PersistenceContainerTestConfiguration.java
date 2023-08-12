@@ -1,4 +1,4 @@
-package pl.zajavka.integration;
+package pl.zajavka.integration.configuration;
 
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;

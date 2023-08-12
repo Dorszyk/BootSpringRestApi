@@ -1,4 +1,4 @@
-package pl.zajavka.integration;
+package pl.zajavka.integration.configuration;
 
 
 import org.junit.jupiter.api.AfterEach;

@@ -35,7 +35,7 @@ import java.net.URI;
 @RestController
 @RequestMapping(EmployeesController.EMPLOYEES)
 @AllArgsConstructor
-class EmployeesController {
+public class EmployeesController {
 
     public static final String EMPLOYEES = "/employees";
     public static final String EMPLOYEE_ID = "/{employeeId}";

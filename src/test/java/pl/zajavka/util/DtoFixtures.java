@@ -12,6 +12,7 @@ public class DtoFixtures {
     public static EmployeeDTO someEmployee1() {
         return EmployeeDTO
                 .builder()
+                .employeeId(7)
                 .name("Agnieszka")
                 .surname("Zajavkowa")
                 .salary(new BigDecimal("52322.12"))
@@ -23,6 +24,7 @@ public class DtoFixtures {
     public static EmployeeDTO someEmployee2() {
         return EmployeeDTO
                 .builder()
+                .employeeId(8)
                 .name("Tomasz")
                 .surname("Bednarek")
                 .salary(new BigDecimal("62341.00"))

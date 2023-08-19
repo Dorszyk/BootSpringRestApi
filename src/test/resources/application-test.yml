@@ -1,8 +1,9 @@
 api:
   petStore:
     url: http://localhost:9999
-
 spring:
-   jpa:
-     hibernate:
-       ddl-auto: validate
+  security:
+    enabled: false
+  jpa:
+    hibernate:
+      ddl-auto: validate

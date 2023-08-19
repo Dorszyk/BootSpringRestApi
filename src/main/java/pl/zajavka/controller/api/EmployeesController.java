@@ -110,8 +110,6 @@ public class EmployeesController {
         return ResponseEntity.ok().build();
     }
 
-    //curl -i -X DELETE http://localhost:8190/restApi/employees/22
-
     @DeleteMapping(EMPLOYEE_ID)
     @Transactional
     public ResponseEntity<?> deleteEmployee(
@@ -125,7 +123,6 @@ public class EmployeesController {
         return ResponseEntity.noContent().build();
     }
 
-    //curl -i -X PATCH http://localhost:8190/restApi/employees/40/salary?newSalary=19221.00
     @PatchMapping(EMPLOYEE_UPDATE_SALARY)
     public ResponseEntity<?> updateEmployeeSalary(
             @PathVariable Integer employeeId,
@@ -140,7 +137,7 @@ public class EmployeesController {
         return ResponseEntity.ok().build();
     }
 
-    //curl -i --location --request PATCH 'http://localhost:8190/restApi/employees/2/pet/10'
+
     @PatchMapping(EMPLOYEE_UPDATE_PET)
     @Transactional
     public ResponseEntity<?> updateEmployeePet(
@@ -167,9 +164,6 @@ public class EmployeesController {
 
         return ResponseEntity.ok().build();
     }
-
-    //curl -i -H "Accept: application/json" -H "httpStatus: 204" -X GET http://localhost:8190/restApi/employees/test-header
-    //curl -i -X GET http://localhost:8190/restApi/employees/test-header
     @GetMapping(value = "test-header")
     public ResponseEntity<String> testHeader(
             @RequestHeader(value = HttpHeaders.ACCEPT, defaultValue = "application/json") MediaType accept,

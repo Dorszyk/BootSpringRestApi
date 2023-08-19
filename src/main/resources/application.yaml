@@ -8,6 +8,8 @@ api:
     url: https://petstore3.swagger.io/api/v3
 
 spring:
+  security:
+    enabled: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     driver-class-name: org.postgresql.Driver

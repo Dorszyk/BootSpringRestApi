@@ -94,4 +94,5 @@ public class EmployeesControllerRestAssuredIT
                 .isEqualTo(employee1.withPets(Set.of(DtoFixtures.somePet())));
 
     }
+
 }

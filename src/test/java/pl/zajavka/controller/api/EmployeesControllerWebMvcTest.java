@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -15,11 +16,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import pl.zajavka.controller.dao.PetDao;
 import pl.zajavka.controller.dto.EmployeeDTO;
 import pl.zajavka.controller.dto.EmployeeMapper;
-import pl.zajavka.util.DtoFixtures;
-import pl.zajavka.util.EntityFixtures;
 import pl.zajavka.infrastructure.database.entity.EmployeeEntity;
 import pl.zajavka.infrastructure.database.repository.EmployeeRepository;
 import pl.zajavka.infrastructure.database.repository.PetRepository;
+import pl.zajavka.util.DtoFixtures;
+import pl.zajavka.util.EntityFixtures;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -30,9 +31,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
+
+@AutoConfigureMockMvc(addFilters = false)
 @WebMvcTest(controllers = EmployeesController.class)
 public class EmployeesControllerWebMvcTest {
 

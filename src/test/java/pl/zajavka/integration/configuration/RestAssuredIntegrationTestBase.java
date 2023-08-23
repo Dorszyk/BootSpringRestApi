@@ -11,27 +11,38 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.HttpHeaders;
 import pl.zajavka.integration.support.ControllerTestSupport;
 
-public abstract class RestAssuredIntegrationTestBase extends AbstractIntegrationTest implements ControllerTestSupport {
+public abstract class RestAssuredIntegrationTestBase extends AbstractIntegrationTest implements ControllerTestSupport, AuthenticationTestSupport {
 
     @LocalServerPort
-    private int server;
+    private int serverPort;
 
     @Value("${server.servlet.context-path}")
     private String basePath;
 
     protected static WireMockServer wireMockServer;
 
+    private String jSessionIdValue;
+
     @Autowired
     protected ObjectMapper objectMapper;
 
+    @Test
+    void contextLoad() {
+        Assertions.assertTrue(true, "Context loaded");
+    }
+
     @BeforeAll
-    static void beforeAll(){
+    static void beforeAll() {
         wireMockServer = new WireMockServer(
                 WireMockConfiguration.wireMockConfig()
                         .port(9999)
@@ -39,12 +50,29 @@ public abstract class RestAssuredIntegrationTestBase extends AbstractIntegration
         );
         wireMockServer.start();
     }
-    @AfterEach
-    void afterEach(){
-        wireMockServer.resetAll();
+
+    @BeforeEach
+    void beforeEach() {
+        jSessionIdValue = login("user1", "test")
+                .and()
+                .cookie("JSESSIONID")
+                .header(HttpHeaders.LOCATION, "http://localhost:%s%s/".formatted(serverPort, basePath))
+                .extract()
+                .cookie("JSESSIONID");
     }
+
+    @AfterEach
+    void afterEach() {
+        logout()
+                .and()
+                .cookie("JSESSIONID", "");
+        jSessionIdValue = null;
+        wireMockServer.resetAll();
+
+    }
+
     @AfterAll
-    static void afterAll(){
+    static void afterAll() {
         wireMockServer.stop();
     }
 
@@ -55,13 +83,23 @@ public abstract class RestAssuredIntegrationTestBase extends AbstractIntegration
     }
 
     public RequestSpecification requestSpecification() {
+        return restAssuredBase()
+                .accept(ContentType.JSON)
+                .contentType(ContentType.JSON)
+                .cookie("JSESSIONID",jSessionIdValue);
+    }
+
+    public RequestSpecification requestSpecificationNoAuthorization() {
+        return restAssuredBase();
+    }
+
+    public RequestSpecification restAssuredBase() {
         return RestAssured
                 .given()
                 .config(getConfig())
                 .basePath(basePath)
-                .port(server)
-                .accept(ContentType.JSON)
-                .contentType(ContentType.JSON);
+                .port(serverPort);
+
     }
 
     private RestAssuredConfig getConfig() {

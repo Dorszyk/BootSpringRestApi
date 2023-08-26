@@ -1,0 +1,30 @@
+DELETE http://localhost:8190/restApi/employees/1
+Content-Type: application/x-www-form-urlencoded
+
+id=99&content=new-element
+
+<> 2023-07-30T174220.404.json
+<> 2023-07-30T173802-1.404.json
+<> 2023-07-30T173802.404.json
+
+###
+PATCH http://localhost:8190/restApi/employees/2/pet/11
+Content-Type: application/json
+
+<> 2023-07-30T175101.500.json
+<> 2023-07-30T174951.500.json
+<> 2023-07-30T174913.500.json
+<> 2023-07-30T174529.500.json
+<> 2023-07-30T174516.404.json
+
+###
+GET http://localhost:8190/restApi/employees/test-header
+Accept: application/json
+
+
+<> 2023-07-30T173802-1.200.json
+<> 2023-07-30T173802.200.json
+<> 2023-07-29T184808.200.json
+<> 2023-07-29T184523.200.json
+
+###
